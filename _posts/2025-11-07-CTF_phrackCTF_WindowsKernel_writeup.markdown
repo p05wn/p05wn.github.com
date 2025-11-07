@@ -11,23 +11,7 @@ categories: [ctf]
 
 ## Introduction {#introduction}
 ***
-savasvasvs
 
-
-
-avav
-av
-av
-as
-vas
-va
-sv
-asv
-asv
-as
-vas
-va
-sv
 
 
 ## Screenshot {#screenshot}
@@ -36,5 +20,5 @@ sv
 
 
 
-### Exploit code link {#exploit-code-link}
+##### Exploit code link {#exploit-code-link}
 - [https://github.com/p05wn/Windows-CTF/tree/main/Phrack72_Binary_Exploitation_CTF_2025](https://github.com/p05wn/Windows-CTF/tree/main/Phrack72_Binary_Exploitation_CTF_2025)
