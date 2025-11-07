@@ -30,6 +30,9 @@
   {%- endif -%}
   {%- endif -%}
 
+  <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
+
+
   {%- if jekyll.environment == 'production' and site.tracking -%}
   {%- include tracker.html -%}
   {%- endif -%}

@@ -14,13 +14,7 @@ $container-max-width:  1100px !default;
  * Global
  */
 body { background-color: var(--background-color);  margin: 0 auto;  padding: 0;  font-family: $base-font-family;  font-size: $base-font-size;  color: var(--text-color);  text-align: left;  line-height: $base-line-height !important; }
-//h1, h2, h3, h4, h5, h6 { font-size: $base-font-size;  margin: 0px;  margin-top: 22px;  font-weight: bold;  color: var(--text-color); }
-h1 { font-size: 2.2em; margin: 1.2em 0 0.6em; font-weight: 700; color: var(--text-color); }
-h2 { font-size: 1.8em; margin: 1.1em 0 0.6em; font-weight: 700; color: var(--text-color); }
-h3 { font-size: 1.5em; margin: 1em 0 0.5em; font-weight: 700; color: var(--text-color); }
-h4 { font-size: 1.25em; margin: 0.9em 0 0.4em; font-weight: 600; color: var(--text-color); }
-h5 { font-size: 1.1em; margin: 0.8em 0 0.3em; font-weight: 600; color: var(--text-color); }
-h6 { font-size: 1em; margin: 0.7em 0 0.2em; font-weight: 600; color: var(--text-color); }
+h1, h2, h3, h4, h5, h6 { font-size: $base-font-size;  margin: 0px;  margin-top: 22px;  font-weight: bold;  color: var(--text-color); }
 
 p, ul, ol { margin: 0px;  color: var(--text-color); }
 a { text-decoration: underline;  color: var(--link-color); }
