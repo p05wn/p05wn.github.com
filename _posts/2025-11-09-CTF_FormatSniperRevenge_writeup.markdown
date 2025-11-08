@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "[MSG CTF 2025] Format Sniper Revenge write-up"
-date:   2025-11-07 21:25:38 +0900
+title:  "[MSG CTF 2025] XXXXX write-up"
+date:   2025-11-09 21:00:20 +0900
 categories: [ctf]
 ---
 

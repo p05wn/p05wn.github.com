@@ -1,5 +1,5 @@
 ---
 layout: home
-title: p05wnable
+title: /
 permalink: /
 ---

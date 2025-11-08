@@ -1,6 +1,6 @@
 ---
 layout: category
 category: ctf
-title: /CTF
+title: CTF
 permalink: /CTF/
 ---
