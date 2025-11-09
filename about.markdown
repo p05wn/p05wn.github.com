@@ -4,15 +4,15 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
-
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
-
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+# info
+---
+#### name: sangwon oh  
+#### nick: 0s_W
+#### Affiliation: [NULL@ROOT](https://blog.null2root.org/), [SecurityFirst](https://securityfirst.co.kr/), [BoB 13th (KITRI)](https://www.kitribob.kr/)
 
 
-[jekyll-organization]: https://github.com/jekyll
+# contact
+---
+- **discord** : @poswn
+- **facebook** : [link](https://www.facebook.com/profile.php?id=100053101954566&locale=ko_KR)
+- **twitter** : @0s_W1337

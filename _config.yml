@@ -1,6 +1,6 @@
 header_pages:
   - index.markdown
-  - 1day.markdown
+  - Nday.markdown
   - ctf.markdown
   - about.markdown
 
@@ -14,3 +14,10 @@ theme: jekyll-theme-console
 #remote_theme: b2a3e8/jekyll-theme-console
 plugins:
   - jekyll-feed
+  - jekyll-toc
+
+jekyll_toc:
+  min_level: 1      # h1부터 인식
+  max_level: 3      # h3까지 인식
+  ordered_list: false  # 불릿 리스트로 (true면 1.1.1 번호 방식)
+  no_toc_section_class: "no_toc_section"

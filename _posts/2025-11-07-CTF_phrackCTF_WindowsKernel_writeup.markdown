@@ -4,10 +4,8 @@ title:  "[phrack CTF 2025] Windows Kernel Challenge write-up"
 date:   2025-11-07 21:25:38 +0900
 categories: [ctf]
 ---
-### Outline
-[1. Introduction](#introduction)
-[x. Screenshot](#screenshot)
-[x. Exploit code link](#exploit-code-link)
+
+
 
 ## Introduction {#introduction}
 ***
