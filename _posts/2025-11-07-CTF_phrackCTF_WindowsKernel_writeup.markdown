@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "[phrack CTF 2025] Windows Kernel Challenge write-up"
-date:   2025-11-07 21:25:38 +0900
+date:   2025-11-30 21:25:38 +0900
 categories: [ctf]
 ---
 
