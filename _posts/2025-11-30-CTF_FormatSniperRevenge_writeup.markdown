@@ -197,7 +197,7 @@ int main() {
 생각해볼 수 있는 곳은 `libc`의 `got` 또는 `main arena`일껍니다
 우선 2가지 방법을 모두 플래그를 릭하는데 노이즈가 발생하여 완벽하게 릭을 하는데 어려움이 존재합니다
 
-그래서 `main`함수의 스택 프레임에 `rop`를 구성**하기로 하였습니다
+그래서 `main`함수의 스택 프레임에 `rop`를 구성하기로 하였습니다
 
 <center><img src='/assets/CTF-FormatSniper_Revenge/stage1_rop_stack.png' width="600" height="500"></center>
 
@@ -216,7 +216,10 @@ int main() {
 ## stage2 ROP
 `stage1 rop`를 통해 스택에 `libc`주소를 spray되었기 때문에 `double stack pointer`를 통해 편하게 `rop`를 구성해주면 됩니다
 
-> `ROP chain`을 구성하고 재검사하는 과정에서 `ROP chain`을 재사용하여 플래그를 릭하는 시간을 줄일 수 있는 방법이 존재하는데 이는 추후에 내용을 추가하겠습니다
+
+
+> `ROP chain`을 구성할때 `ROP chain`를 재사용할 수 있게 구성하면 플래그를 릭하는 시간을 줄일 수 있습니다
+> 이와 관련된 내용은 추후에 추가하겠습니다
 
 ### exploit code repo
 - [https://github.com/p05wn/CTF/tree/main/MSG2025/pwn-Format_Sniper_Revenge](https://github.com/p05wn/CTF/tree/main/MSG2025/pwn-Format_Sniper_Revenge)
