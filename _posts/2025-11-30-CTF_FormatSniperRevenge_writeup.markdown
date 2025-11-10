@@ -9,7 +9,7 @@ toc: true
 # introduction
 ---
 `MSG CTF 2025`에서 약 1년 전에 만들어둔 문제를 드디어 출제하게 되었습니다  
-이 문제는 당시 [Xion](https://x.com/0x10n)님이 VRP 포상금을 전액 기부하셨다는 기사를 보고 영감을 받아 일종의 팬심(?)으로 과거 dreamhack 워게임 사이트에 출제하셨던 [Format sniper](https://dreamhack.io/wargame/challenges/281)문제의 Revenge문제를 만들어보았습니다  
+이 문제는 BoB 3차 교육 당시 [Xion](https://x.com/0x10n)님의 VRP 1등과 포상금 기부 기사를 보고 영감을 받아 일종의 팬심(?)으로 과거 dreamhack에 출제하셨던 [Format sniper](https://dreamhack.io/wargame/challenges/281)문제의 Revenge문제를 만들어보자하고 제작된 문제입니다 
 
 # binary analysis
 ---
