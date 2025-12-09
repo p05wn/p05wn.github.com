@@ -231,15 +231,18 @@ chk_gad = 0x8a600 #: test rax, rax ; je 0x0008A610 ; pop rbx ; ret ; \x48\x85\xc
 
 ### ROP Chain Reuse for Faster Attacks
 <center><img src='/assets/CTF-FormatSniper_Revenge/stage2_rop_chain.png' width=auto height=auto></center>
+
 `stage2 rop`에서  `open`, `read` 이후의 플래그를 검사하는 `ROP`는 특정 오프셋의 값들을 제외하면 매번 동일합니다.
 플래그를 검사할때마다 매번 동일한 `ROP chain`을 구성해야한다는 점에서 사용한 `ROP chain`을 재사용하여 기존 8시간 ~ 4시간 소요되던 `exploit`시간을 30분까지 줄일 수 있었습니다.
 
 <center><img src='/assets/CTF-FormatSniper_Revenge/mantaining_stage2_rop.png' width=auto height=auto></center>
+
 `check routine` 이후 가젯들은 재사용할 `ROP chain`을 유지하고 `main`으로 돌아가기(다시 `fsb`를 발생시키기) 위해 존재합니다.
 `rax` 레지스터에 `start`주소를 저장한 뒤 `rsp`를 `start()`주소가 저장된 위치까지 끌어올려 `flag check routine`과 이후 `rop chain`을 보존합니다.
 
 <center><img src='/assets/CTF-FormatSniper_Revenge/start_rax.png' width=auto height=auto></center>
-`start`의 경우 호출 시 `rax`레지스터 값을 `push`한 뒤 `__libc_start_main`함수를 호출하며 다시 `main`으로 돌아가고 재사용할 `ROP chain`은 보존이 가능합니다.
+
+`start`의 경우 호출 시 `rax`레지스터 값을 `push`한 뒤 `__libc_start_main`함수를 호출하며 다시 `main`으로 돌아가고 재사용할 `ROP chain`은 보존이 가능하고 다음 검사에 필요한 값들(에측값)만 변경해주면 ASLR bypass가 한번만 되면 최소 한개의 byte 값을 알아낼 수 있습니다.
 
 
 # Concusion
