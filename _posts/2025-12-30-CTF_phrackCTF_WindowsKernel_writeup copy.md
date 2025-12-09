@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "[phrack CTF 2025] Windows Kernel Challenge write-up"
-date:   2025-11-30 21:00:20 +0900
+date:   2025-12-30 21:00:20 +0900
 categories: [ctf, Windows]
 tags: [CTF, pwnable, Windows, Exploitation]
 fullview: false
