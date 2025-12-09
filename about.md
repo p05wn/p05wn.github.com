@@ -9,7 +9,7 @@ permalink: /about/
 #### name: sangwon oh  
 #### nick: 0s_W
 #### Affiliation: [NULL@ROOT](https://blog.null2root.org/), [SecurityFirst](https://securityfirst.co.kr/), [BoB 13th (KITRI)](https://www.kitribob.kr/)
-#### Github : [Github](https://github.com/p05wn)
+#### Github : [My Github](https://github.com/p05wn)
 
 # Interests
 - Interested in Windows exploitation, N-day research, and internals

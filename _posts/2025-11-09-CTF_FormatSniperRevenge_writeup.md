@@ -3,17 +3,20 @@ layout: post
 title:  "[MSG CTF 2025] Format Sniper Revenge write-up"
 date:   2025-11-09 21:00:20 +0900
 categories: [ctf]
+tags: [FSB, CTF, pwnable]
+fullview: false
+comments: true
 toc: true
+#description: "pwn challenge i made last year and released on MSG CTF 2025"
+
 ---
 
-# introduction
----
 `MSG CTF 2025`에서 약 1년 전에 만들어둔 문제를 드디어 출제하게 되었습니다  
 이 문제는 BoB 3차 교육 당시 [Xion](https://x.com/0x10n)님의 VRP #0과 기부 기사를 보고 일종의 팬심(?)으로 과거 dreamhack에 출제하셨던 [Format sniper](https://dreamhack.io/wargame/challenges/281)문제의 Revenge문제를 만들어보자하고 제작된 문제입니다 
 
 # binary analysis
 ---
-## Launcher
+## Launcher binary
 ```c++
 // Launcher binary
 int __fastcall main()
@@ -35,7 +38,7 @@ int __fastcall main()
 }
 ```
 해당 문제는 `Launcher`를 통해 문제 바이너리(`format-sniper_revenge`)를 실행시킵니다
-## format-sniper_revenge
+## format-sniper_revenge binary
 ```c++
 // format-sniper_revenge binary
 
@@ -122,14 +125,14 @@ int __fastcall __noreturn main(int argc, const char **argv, const char **envp)
 ```
 우선 1번의 `fsb`를 통해 `exploit`을 수행하는 것은 매우 어렵기 때문에 연속적으로 `fsb`를 트리거를 할 수 있는 상태를 만들어줘야합니다  
 
-<center><img src='/assets/CTF-FormatSniper_Revenge/ret_to_main.png' width="800" height="500"></center>
+<center><img src='/assets/CTF-FormatSniper_Revenge/ret_to_main.png' width=auto height=auto></center>
 `printf`를 호출한 뒤 바로 `exit` 함수가 호출되기 때문에 `main`함수의 return주소를 건드리는 것은 무의미하며 `exit`함수 호출 전인 `printf`의 ret를 `main`함수 등으로 조작할 경우 연속적으로 `fsb`를 트리거할 수 있습니다
 
 ### corrupting stack data
 `printf`함수의 ret주소를 변조하면 연속적으로 `fsb`를 트리거할 수 있다는 것을 알았지만 `.bss`에서 `user input`을 받고 릭 또한 못한 상태기 떄문에 스택에 포인터를 쓰고 `aaw`를 하지는 못합니다  
 하지만 **`%n`형식자를 통해 스택에 존재하는 포인터**에는 여전히 접근이 가능합니다  
 
-<center><img src='/assets/CTF-FormatSniper_Revenge/printf_stack.png' width="800" height="500"></center>
+<center><img src='/assets/CTF-FormatSniper_Revenge/printf_stack.png' width=auto height=auto></center>
 
 `stack`에는 위 사진과 같이 스택 내에 스택을 가리키는 스택 포인터가 존재합니다
 해당 스택 포인터를 부분적으로 덮어 스택 포인터를 `printf ret`로 옮기게 되면 `return address`를 변조할 수 있습니다
@@ -157,20 +160,20 @@ int main() {
 이를 통해 스택 포인터 하나를 `printf`의 `return address`로 바꿔 연속적으로 `fsb`를 트리거할 수 있습니다
 
 ### corrputing the stack with double stack pointer
-<center><img src='/assets/CTF-FormatSniper_Revenge/create_second_pointer.png' width="800" height="500"></center>
+<center><img src='/assets/CTF-FormatSniper_Revenge/create_second_pointer.png' width=auto height=auto></center>
 
 이 문제의 경우 스택을 확인해보면 위 사진처럼 1개의 `double stack pointer`만이 존재합니다
 하지만 `return address`를 조작하며 스택에 있는 데이터들을 조작하기 위해서는 추가적인 포인터가 필요합니다
 
-<center><img src='/assets/CTF-FormatSniper_Revenge/init_stack.png' width="400" height="500"></center>
+<center><img src='/assets/CTF-FormatSniper_Revenge/init_stack.png' width=auto height=auto></center>
 
 그림을 통해 어떤식으로 `double stack pointer`를 통해 스택 내 다른 스택 포인터를 `printf ret`를 가리키는 포인터로 조작하고 `printf ret`를 `main`으로 변조하였는지 설명하겠습니다
 
-<center><img src='/assets/CTF-FormatSniper_Revenge/stack_change1.png' width="400" height="500"></center>
+<center><img src='/assets/CTF-FormatSniper_Revenge/stack_change1.png' width=auto height=auto></center>
 
 먼저 `%*c`를 통해 `+0x30` 오프셋의 스택 포인터 하위 4byte를 참조하여 `+0x48`포인터를 부분적 변조하여 `+0x108`를 가리키도록합니다
 
-<center><img src='/assets/CTF-FormatSniper_Revenge/stack_change2.png' width="400" height="500"></center>
+<center><img src='/assets/CTF-FormatSniper_Revenge/stack_change2.png' width=auto height=auto></center>
 
 `printf`에서 참조하고자하는 인덱스는 2가지 방법으로 접근이 가능합니다
 1. `%c`의 반복으로 접근
@@ -178,7 +181,7 @@ int main() {
 
 먼저 `%c`를 통해 해당 `+0x118`오프셋에 접근하여 `+0x108`오프셋에 있는 스택 포인터를 `printf ret`로 조작합니다
 
-<center><img src='/assets/CTF-FormatSniper_Revenge/stack_change3.png' width="400" height="500"></center>
+<center><img src='/assets/CTF-FormatSniper_Revenge/stack_change3.png' width=auto height=auto></center>
 
 마지막으로 조작한 `+0x108`오프셋에 있는 `printf ret`포인터를 `$`를 통해 접근하여 `printf ret`를 조작해줍니다
 이렇게되면 `printf ret`를 가리키는 포인터가 하나 존재하고 추가로 기존 `double stack pointer A`를 재사용하여 스택을 조작할 수 있습니다
@@ -204,7 +207,7 @@ int main() {
 `printf ret`를 `main`함수 대신 `start`함수로 조작해 분기하면서 스택을 증가 시켜 추가적인 값들을 확보할 수 있습니다
 위 사진은 `start`함수로 2번 분기한 스택 상태이며 값들을 잘 조작하면 원하는 함수를 호출한 뒤 `main`으로 되돌아가는 `rop`를 구성할 수 있습니다
 
-<center><img src='/assets/CTF-FormatSniper_Revenge/stage1_rop_field.png' width="800" height="600"></center>
+<center><img src='/assets/CTF-FormatSniper_Revenge/stage1_rop_field.png' width=auto height=auto></center>
 
 최종적으로 구성하고 싶은 `ROP chain`은 `open`, `read`, 플래그 검사 후 다시 `main`으로 복귀하는 `rop`이기 때문에 스택에 많은 `libc`포인터가 필요합니다
 

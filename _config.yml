@@ -1,19 +1,40 @@
-header_pages:
-  - index.markdown
-  - Nday.markdown
-  - ctf.markdown
-  - about.markdown
+# visit https://github.com/mojombo/jekyll/wiki/Configuration for more settings
 
-style: dark # dark (default), light, hacker, or nord
-listen_for_clients_preferred_style: true # false (default) or true
-disable_google_fonts: false
-robots: NONOINDEX
+paginate: 10 # pagination based on number of posts
+paginate_path: "page:num"
+exclude: ["README.md"] # files to exclude
+highlighter: rouge
+markdown: kramdown
+google_analytics: p05wn
+title: 0s_W
 
-# Build settings
-theme: jekyll-theme-console
-#remote_theme: b2a3e8/jekyll-theme-console
+defaults:
+  -
+    scope:
+      path: "" # empty string for all files
+    values:
+      title: p05wnable blog
+
+description: Welcome to my blog
+author:
+  name: 0s_W
+  email: p05wnable@gmail.com
+  github: p05wn
+  twitter: 0s_W1337
+  bio: digging in to the unknown
+  email_md5: 0be7052f6f65b891fc1f5f1148cf43b6
+
+rss_path: feed.xml
+categories_path: categories.html
+tags_path: tags.html
+
+# set it as url of an image
+#sidebar_background_image: https://www.dropbox.com/s/g9h23zrycedxtk5/sky.png?raw=1
+
+BASE_PATH:
+
 plugins:
-  - jekyll-feed
+  - jekyll-paginate
   - jekyll-toc
 
 jekyll_toc:
