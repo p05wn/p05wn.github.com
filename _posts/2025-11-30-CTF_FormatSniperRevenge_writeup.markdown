@@ -9,7 +9,7 @@ toc: true
 # introduction
 ---
 `MSG CTF 2025`에서 약 1년 전에 만들어둔 문제를 드디어 출제하게 되었습니다  
-이 문제는 BoB 3차 교육 당시 [Xion](https://x.com/0x10n)님의 VRP 1등과 포상금 기부 기사를 보고 영감을 받아 일종의 팬심(?)으로 과거 dreamhack에 출제하셨던 [Format sniper](https://dreamhack.io/wargame/challenges/281)문제의 Revenge문제를 만들어보자하고 제작된 문제입니다 
+이 문제는 BoB 3차 교육 당시 [Xion](https://x.com/0x10n)님의 VRP #0과 기부 기사를 보고 일종의 팬심(?)으로 과거 dreamhack에 출제하셨던 [Format sniper](https://dreamhack.io/wargame/challenges/281)문제의 Revenge문제를 만들어보자하고 제작된 문제입니다 
 
 # binary analysis
 ---
@@ -199,27 +199,50 @@ int main() {
 
 그래서 `main`함수의 스택 프레임에 `rop`를 구성하기로 하였습니다
 
-<center><img src='/assets/CTF-FormatSniper_Revenge/stage1_rop_stack.png' width="600" height="500"></center>
+<center><img src='/assets/CTF-FormatSniper_Revenge/stage1_rop_stack.png' width=auto height=auto></center>
 
 `printf ret`를 `main`함수 대신 `start`함수로 조작해 분기하면서 스택을 증가 시켜 추가적인 값들을 확보할 수 있습니다
 위 사진은 `start`함수로 2번 분기한 스택 상태이며 값들을 잘 조작하면 원하는 함수를 호출한 뒤 `main`으로 되돌아가는 `rop`를 구성할 수 있습니다
 
-<center><img src='/assets/CTF-FormatSniper_Revenge/stage1_rop_field.png' width="800" height="500"></center>
+<center><img src='/assets/CTF-FormatSniper_Revenge/stage1_rop_field.png' width="800" height="600"></center>
 
 최종적으로 구성하고 싶은 `ROP chain`은 `open`, `read`, 플래그 검사 후 다시 `main`으로 복귀하는 `rop`이기 때문에 스택에 많은 `libc`포인터가 필요합니다
 
-<center><img src='/assets/CTF-FormatSniper_Revenge/stage1_rop_result.png' width="550" height="600"></center>
+<center><img src='/assets/CTF-FormatSniper_Revenge/stage1_rop_result.png' width=auto height=auto></center>
 
 그래서 `stage1 rop`에서는 `memcpy`를 호출해 스택에 `libc`의 `got`를 복사해 최종 `rop`를 작성하기 위한 스택 상태를 만들어줍니다
 위 사진이 `stage1 rop`에서 `memcpy`를 통해 `libc`의 `got` 주소들을 스택으로 복사한 뒤의 스택 상태입니다
 
 ## stage2 ROP
 `stage1 rop`를 통해 스택에 `libc`주소를 spray되었기 때문에 `double stack pointer`를 통해 편하게 `rop`를 구성해주면 됩니다
+다만 `rop`에 구성에 따라 소요되는 시간이 천차만별이기 때문에 여기서는 제가 할 수 있었던 가장 최선의 방법에 대해 설명합니다
+
+### Time-based side-channel attack
+```python
+xor_gad = 0x14e5c0  #: xor rdx, qword [rsi+0x08] ; xor rax, qword [rsi+0x10] ; or rax, rdx ; sete al ; movzx eax, al ; ret ;
+mov_gad = 0xbf888 #: mov rax, rdx ; ret ; \x48\x89\xd0\xc3 (1 found)
+chk_gad = 0x8a600 #: test rax, rax ; je 0x0008A610 ; pop rbx ; ret ; \x48\x85\xc0\x74\x0b\x5b\xc3 (1 found)
+```
+`stage2`에서 플래그 검사를 위해 사용된 가젯은 위와 같습니다.
+예측한 값이 flag byte가 맞을 경우에만 크래시를 발생시키도록하여 `Flag`를 구분할 수 있습니다.
+
+### ROP Chain Reuse for Faster Attacks
+<center><img src='/assets/CTF-FormatSniper_Revenge/stage2_rop_chain.png' width=auto height=auto></center>
+`stage2 rop`에서  `open`, `read` 이후의 플래그를 검사하는 `ROP`는 특정 오프셋의 값들을 제외하면 매번 동일합니다.
+플래그를 검사할때마다 매번 동일한 `ROP chain`을 구성해야한다는 점에서 사용한 `ROP chain`을 재사용하여 기존 8시간 ~ 4시간 소요되던 `exploit`시간을 30분까지 줄일 수 있었습니다.
+
+<center><img src='/assets/CTF-FormatSniper_Revenge/mantaining_stage2_rop.png' width=auto height=auto></center>
+`check routine` 이후 가젯들은 재사용할 `ROP chain`을 유지하고 `main`으로 돌아가기(다시 `fsb`를 발생시키기) 위해 존재합니다.
+`rax` 레지스터에 `start`주소를 저장한 뒤 `rsp`를 `start()`주소가 저장된 위치까지 끌어올려 `flag check routine`과 이후 `rop chain`을 보존합니다.
+
+<center><img src='/assets/CTF-FormatSniper_Revenge/start_rax.png' width=auto height=auto></center>
+`start`의 경우 호출 시 `rax`레지스터 값을 `push`한 뒤 `__libc_start_main`함수를 호출하며 다시 `main`으로 돌아가고 재사용할 `ROP chain`은 보존이 가능합니다.
 
 
+# Concusion
+해당 문제를 제작하고 `exploit`을 작성할때만해도 익스 가능여부를 모른 상태에서 진행을 하였는데
+기존 문제에서 사용하였던 `ROP` 방법을 제거하고 새로운 방법을 통해 `ROP`까지 끌어가는 등의 과정이 정말 재미있게 다가왔던 문제였던 것 같습니다.
 
-> `ROP chain`을 구성할때 `ROP chain`를 재사용할 수 있게 구성하면 플래그를 릭하는 시간을 줄일 수 있습니다
-> 이와 관련된 내용은 추후에 추가하겠습니다
 
-### exploit code repo
+# exploit code repo
 - [https://github.com/p05wn/CTF/tree/main/MSG2025/pwn-Format_Sniper_Revenge](https://github.com/p05wn/CTF/tree/main/MSG2025/pwn-Format_Sniper_Revenge)
