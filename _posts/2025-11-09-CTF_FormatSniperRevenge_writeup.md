@@ -12,7 +12,7 @@ toc: true
 ---
 
 `MSG CTF 2025`에서 약 1년 전에 만들어둔 문제를 드디어 출제하게 되었습니다  
-이 문제는 BoB 3차 교육 당시 [Xion](https://x.com/0x10n)님의 VRP #0과 기부 기사를 보고 일종의 팬심(?)으로 과거 dreamhack에 출제하셨던 [Format sniper](https://dreamhack.io/wargame/challenges/281)문제의 Revenge문제를 만들어보자하고 제작된 문제입니다 
+이 문제는 BoB 3차 교육 당시 [Xion](https://x.com/0x10n)님의 `Google VRP #0`과 기부 기사를 보고 일종의 팬심(?)으로 과거 dreamhack에 출제하셨던 [Format sniper](https://dreamhack.io/wargame/challenges/281)문제의 Revenge문제를 만들어보자하고 제작된 문제입니다 
 
 # binary analysis
 ---
@@ -151,10 +151,7 @@ int main() {
 ```
 `printf`에는 `width`또는 `precision`값을 인자로 받아올 수 있으며 이때 `*`가 사용됩니다
 
-<center>
-  <img src="/assets/CTF-FormatSniper_Revenge/printf_test.png"
-       style="width:50px; !important; height:30px !important;">
-</center>
+<center> <img src="/assets/CTF-FormatSniper_Revenge/printf_test.png" width=auto height=auto></center>
 
 위 사진은 위 코드의 실행 결과로 `*`가 11번째 인자를 가져와 총 11칸 공간을 확보하는 것을 확인할 수 있습니다
 이를 통해 스택 포인터 하나를 `printf`의 `return address`로 바꿔 연속적으로 `fsb`를 트리거할 수 있습니다
